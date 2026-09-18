@@ -28,8 +28,8 @@ export function ExpertCard({ expert, delay = 0 }: { expert: DirectoryExpert; del
         </div>
       </div>
 
-      <div className="mt-auto border-t border-white/6 pt-3.5 text-xs text-faint">
-        <p>{expert.pedigree}</p>
+      <div className="mt-auto border-t border-white/6 pt-3.5 text-xs text-warm">
+        <p>{expert.previous_companies}</p>
         <div className="mt-2 flex items-center justify-between gap-3">
           <span>
             {expert.location} · {expert.years} yrs

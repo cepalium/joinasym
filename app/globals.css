@@ -52,7 +52,8 @@
 :root {
   --gutter: clamp(1.25rem, 4.5vw, 4.5rem);
   --content: 78rem;
-  --section-y: clamp(3.25rem, 5vw, 5.5rem);
+  /* Padding, not margin, so the gap between two sections is twice this. */
+  --section-y: clamp(2.25rem, 3.4vw, 3.75rem);
 
   /* GLASS — one recipe, three weights. The blur alone is not the effect: the
      inset top highlight is what reads as a lit edge, and without the long
@@ -75,6 +76,9 @@
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
     scroll-behavior: smooth;
+    /* The header is sticky and 4rem tall; without this it covers the top of
+       whatever a nav anchor lands on. */
+    scroll-padding-top: 4rem;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -376,6 +380,18 @@
     color: var(--color-paper);
   }
 
+  /* TEAM PORTRAIT. Greyscale is not a mood: the three source photographs have
+     black, grey and white backgrounds, and colour makes that impossible to
+     ignore. Colour returns on hover. */
+  .portrait {
+    filter: grayscale(1) contrast(1.04);
+    transition: filter 0.5s var(--ease-out-expo);
+  }
+
+  .glass-interactive:hover .portrait {
+    filter: grayscale(0) contrast(1);
+  }
+
   /* SCROLL REVEAL. Class `js` is set by the inline script in <head> before
      first paint; without JavaScript every element is simply visible.
 
@@ -399,119 +415,7 @@
     transform: none;
   }
 
-  /* QUOTE CYCLE. Stacked in a single grid cell rather than absolutely
-     positioned, so the tallest quote sets the height and the block never
-     collapses mid-fade. 24s round, 8s each, 1s crossfade. */
-  .cycle {
-    display: grid;
-  }
-
-  .cycle blockquote {
-    line-height: 1.24;
-    letter-spacing: -0.01em;
-  }
-
-  .cycle > * {
-    grid-area: 1 / 1;
-    opacity: 0;
-    animation: cycle-fade 24s ease-in-out infinite;
-  }
-
-  .cycle > *:nth-child(2) {
-    animation-delay: 8s;
-  }
-
-  .cycle > *:nth-child(3) {
-    animation-delay: 16s;
-  }
-
-  @keyframes cycle-fade {
-    0%,
-    1% {
-      opacity: 0;
-    }
-    4%,
-    30% {
-      opacity: 1;
-    }
-    34%,
-    100% {
-      opacity: 0;
-    }
-  }
-
-  /* The progress bar under it runs on the same clock. */
-  .cycle-dot {
-    width: 1.75rem;
-    height: 2px;
-    border-radius: 999px;
-    background: var(--color-line);
-    overflow: hidden;
-  }
-
-  .cycle-dot::after {
-    content: '';
-    display: block;
-    height: 100%;
-    width: 100%;
-    transform: scaleX(0);
-    transform-origin: left;
-    background: var(--color-gold);
-    animation: cycle-fill 24s linear infinite;
-  }
-
-  .cycle-dot:nth-child(2)::after {
-    animation-delay: 8s;
-  }
-
-  .cycle-dot:nth-child(3)::after {
-    animation-delay: 16s;
-  }
-
-  @keyframes cycle-fill {
-    0% {
-      transform: scaleX(0);
-    }
-    33% {
-      transform: scaleX(1);
-    }
-    34%,
-    100% {
-      transform: scaleX(0);
-    }
-  }
-
-  /* The client marquee. Duplicated track, translated by exactly half its width,
-     so the seam is invisible and the loop needs no JavaScript. */
-  .marquee {
-    display: flex;
-    width: max-content;
-    animation: marquee 46s linear infinite;
-  }
-
-  @keyframes marquee {
-    to {
-      transform: translateX(-50%);
-    }
-  }
-
   @media (prefers-reduced-motion: reduce) {
-    .marquee {
-      animation: none;
-    }
-    /* No cycling without motion: the first quote simply stays up. */
-    .cycle > * {
-      animation: none;
-    }
-    .cycle > *:first-child {
-      opacity: 1;
-    }
-    .cycle-dot::after {
-      animation: none;
-    }
-    .cycle-dot:first-child::after {
-      transform: scaleX(1);
-    }
     .js [data-reveal] {
       opacity: 1;
       transform: none;

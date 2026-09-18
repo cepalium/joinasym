@@ -1,7 +1,7 @@
 import { directory } from '@/content/experts';
-import { clients, disciplines, homeStats, homeSteps, pillars, testimonials } from '@/content/pages';
+import { disciplines, homeSteps, pillars, team } from '@/content/pages';
 import { mailto } from '@/lib/site';
-import { Button, Container, Display, Section, reveal } from '@/components/primitives';
+import { Button, Container, Display, Lead, Section, reveal } from '@/components/primitives';
 import { ExpertCard } from '@/components/blocks/ExpertCard';
 
 /** One framed plate in the hero collage: glass mat, image inset inside it. */
@@ -50,7 +50,7 @@ function Hero() {
 
           <div className="mt-8" {...reveal({ delay: 100 })}>
             <Button href={mailto} arrow>
-              Talk to an Expert
+              Talk to us
             </Button>
           </div>
         </div>
@@ -88,65 +88,13 @@ function Hero() {
   );
 }
 
-/* The track is rendered twice and shifted by exactly half its width, so the
-   loop is seamless; the second copy is hidden from screen readers. The strip
-   runs outside the container — the edge fade needs the full viewport to fade
-   into, not a gutter. */
-function Clients() {
-  return (
-    <Section>
-      <Container>
-        <Display {...reveal()}>Trusted by the region&rsquo;s leaders</Display>
-      </Container>
-
-      <div className="mt-10 [mask-image:linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)] overflow-hidden">
-        <div className="marquee">
-          {[0, 1].map((copy) => (
-            <ul
-              key={copy}
-              aria-hidden={copy === 1}
-              className="flex shrink-0 items-center gap-14 pr-14"
-            >
-              {clients.map((client) => (
-                <li
-                  key={client}
-                  className="text-base tracking-[0.2em] whitespace-nowrap text-faint uppercase"
-                >
-                  {client}
-                </li>
-              ))}
-            </ul>
-          ))}
-        </div>
-      </div>
-    </Section>
-  );
-}
-
-function Stats() {
-  return (
-    <Section className="!pt-0">
-      <Container>
-        <dl className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          {homeStats.map((stat, i) => (
-            <div key={stat.label} className="glass px-6 py-5" {...reveal({ delay: i * 60 })}>
-              <dt className="numeral numeral-fine text-[2.5rem]">{stat.value}</dt>
-              <dd className="mt-2 text-sm tracking-wide text-muted">{stat.label}</dd>
-            </div>
-          ))}
-        </dl>
-      </Container>
-    </Section>
-  );
-}
-
 /* Seven items, and the lead one takes double width: eight units, which fills a
    four-column grid exactly with no trailing gap. */
 function Disciplines() {
   return (
     <Section>
       <Container>
-        <Display {...reveal()}>Expertise across every function</Display>
+        <Display {...reveal()}>Expertise across disciplines</Display>
 
         <div className="mt-9 grid gap-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {disciplines.map((discipline, i) => (
@@ -172,9 +120,9 @@ function Disciplines() {
 
 function Network() {
   return (
-    <Section>
+    <Section id="talents">
       <Container>
-        <Display {...reveal()}>Meet the calibre</Display>
+        <Display {...reveal()}>Meet our experts</Display>
 
         <div className="mt-9 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {directory.slice(0, 8).map((expert, i) => (
@@ -186,30 +134,21 @@ function Network() {
   );
 }
 
-/* Image left, argument right. The glass plate over the photograph's corner is
-   the one place the two systems are allowed to overlap, so it carries a number
-   rather than a caption. */
+/* Image left, argument right. */
 function Deliver() {
   return (
     <Section>
       <Container className="grid items-center gap-12 lg:grid-cols-2">
-        <div className="relative" {...reveal()}>
-          <figure className="glass overflow-hidden !rounded-[1.5rem] p-2">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/img/deliver.jpg"
-              alt="A glass-walled meeting room in a stone and timber office"
-              width={1600}
-              height={1200}
-              className="w-full rounded-[1.1rem] object-cover"
-            />
-          </figure>
-
-          <div className="glass glass-on-image absolute -right-3 -bottom-6 px-5 py-4 sm:-right-6">
-            <p className="numeral text-[1.75rem]">98%</p>
-            <p className="mt-1.5 text-xs text-muted">Client retention</p>
-          </div>
-        </div>
+        <figure className="glass overflow-hidden !rounded-[1.5rem] p-2" {...reveal()}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/img/deliver.jpg"
+            alt="A glass-walled meeting room in a stone and timber office"
+            width={1600}
+            height={1200}
+            className="w-full rounded-[1.1rem] object-cover"
+          />
+        </figure>
 
         <div>
           <Display {...reveal()}>From strategy to execution</Display>
@@ -232,11 +171,9 @@ function Deliver() {
   );
 }
 
-/* The one light band on the site. It lands where the argument turns from who we
-   are to how you engage us, and the tonal flip does that work on its own. */
 function Process() {
   return (
-    <Section className="on-light">
+    <Section>
       <Container>
         <Display {...reveal()}>How it works</Display>
 
@@ -264,31 +201,35 @@ function Process() {
   );
 }
 
-/* One quote at a time, cycling on a 24s round. Names are withheld; the role and
-   the organisation are what make a quote worth reading. CSS only — see .cycle
-   in globals.css. */
-function Voices() {
+function About() {
   return (
-    <Section>
+    <Section id="about">
       <Container>
-        <div className="cycle mx-auto mt-8 max-w-4xl" {...reveal({ delay: 80 })}>
-          {testimonials.map((testimonial) => (
-            <figure key={testimonial.company} className="text-center">
-              <blockquote className="display text-[length:var(--text-quote)] text-warm">
-                &ldquo;{testimonial.quote}&rdquo;
-              </blockquote>
-              <figcaption className="mt-6 text-sm text-muted">
-                {testimonial.title} · {testimonial.company}
-              </figcaption>
-            </figure>
-          ))}
-        </div>
+        <Display {...reveal()}>About us</Display>
+        <Lead className="mt-5" {...reveal({ delay: 80 })}>
+          We connect the world&rsquo;s top talent with the world&rsquo;s top organizations.
+        </Lead>
 
-        <div className="mt-10 flex justify-center gap-2" aria-hidden="true">
-          {testimonials.map((testimonial) => (
-            <span key={testimonial.company} className="cycle-dot" />
+        <ul className="mt-12 grid gap-5 sm:grid-cols-3">
+          {team.map((member, i) => (
+            <li
+              key={member.name}
+              className="glass glass-interactive flex flex-col items-center p-7 text-center"
+              {...reveal({ delay: 140 + i * 90 })}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={member.photo}
+                alt=""
+                width={224}
+                height={224}
+                className="portrait size-28 rounded-full object-cover"
+              />
+              <h3 className="display mt-5 text-[1.25rem] text-warm">{member.name}</h3>
+              <p className="mt-1 text-sm text-gilt">{member.title}</p>
+            </li>
           ))}
-        </div>
+        </ul>
       </Container>
     </Section>
   );
@@ -319,7 +260,7 @@ function Closing() {
         </Display>
         <div className="mt-8 flex justify-center" {...reveal({ delay: 150 })}>
           <Button href={mailto} arrow>
-            Talk to an Expert
+            Talk to us
           </Button>
         </div>
       </Container>
@@ -331,13 +272,11 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <Stats />
       <Disciplines />
       <Network />
       <Deliver />
       <Process />
-      <Clients />
-      <Voices />
+      <About />
       <Closing />
     </>
   );

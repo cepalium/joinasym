@@ -7,11 +7,11 @@ function Wordmark({ id, className = '' }: { id: string; className?: string }) {
   return (
     <Link
       href="/"
-      className={`flex items-center gap-2.5 ${className}`}
-      aria-label={`${site.name} — home`}
+      className={`flex items-center gap-0.5 ${className}`}
+      aria-label={`${site.company} home`}
     >
       <Mark id={id} className="h-7 w-7" />
-      <span className="display text-[1.35rem] text-warm">{site.name}</span>
+      <span className="display text-[1.35rem] text-warm">{site.wordmark}</span>
     </Link>
   );
 }
@@ -23,9 +23,22 @@ export function Header() {
         <Container className="flex h-16 items-center justify-between gap-8">
           <Wordmark id="hdr" />
 
-          <a href={mailto} className="btn btn-primary group !px-5 !py-2.5 !text-sm">
-            Talk to an Expert
-          </a>
+          <div className="flex items-center gap-7">
+            {/* Hidden below sm: two links and the CTA do not fit a phone header,
+                and both sections are on the way down the page anyway. */}
+            <nav className="hidden items-center gap-7 text-sm text-muted sm:flex">
+              <a href="#talents" className="transition-colors hover:text-warm">
+                Our Talents
+              </a>
+              <a href="#about" className="transition-colors hover:text-warm">
+                About Us
+              </a>
+            </nav>
+
+            <a href={mailto} className="btn btn-primary group !px-5 !py-2.5 !text-sm">
+              Talk to us
+            </a>
+          </div>
         </Container>
       </div>
     </header>
@@ -59,7 +72,7 @@ export function Footer() {
       <Container>
         <hr className="rule" />
         <p className="py-5 text-sm text-faint">
-          © {new Date().getFullYear()} {site.name}. All rights reserved.
+          © {new Date().getFullYear()} {site.company}. All rights reserved.
         </p>
       </Container>
     </footer>

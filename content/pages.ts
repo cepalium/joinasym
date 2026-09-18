@@ -1,28 +1,5 @@
 /** Page copy for the single page, one export per band. */
 
-export const homeStats = [
-  {
-    value: '200+',
-    label: 'Vetted Experts',
-    numeric: 200,
-  },
-  {
-    value: '48hr',
-    label: 'Matching',
-    numeric: 48,
-  },
-  {
-    value: 'Top 3%',
-    label: 'Accepted',
-    numeric: 3,
-  },
-  {
-    value: 'GCC-First',
-    label: 'Network',
-    numeric: 0,
-  },
-];
-
 /** Disciplines, matched to toptalents.contango-qa.ae. No headcounts — that
     site publishes none, and inventing them is not an option. */
 export const disciplines = [
@@ -78,51 +55,26 @@ export const homeSteps = [
   {
     number: '01',
     title: 'Send us the brief',
-    description:
-      'Tell us the scope, the timeline and the seniority you need. If anything is unclear, we come back with questions before we start looking.',
+    description: 'Tell us the scope, the timeline and the seniority you need.',
   },
   {
     number: '02',
     title: 'A shortlist in 48 hours',
-    description:
-      'We put forward three to five people from the network, each with a short note on why they fit the brief.',
+    description: 'We put forward 3-5 talents from our network who fit the brief.',
   },
   {
     number: '03',
     title: 'Start the engagement',
     description:
-      'You interview and you choose. We handle contracting and onboarding, and stay in contact for the length of the engagement.',
+      'You interview and you choose. We handle contracting and onboarding for the length of the engagement.',
   },
 ];
 
-export const clients = [
-  'ADNOC',
-  'Saudi Aramco',
-  'Mubadala',
-  'STC',
-  'Aldar',
-  'Emirates NBD',
-  'PIF',
-  'NEOM',
-];
-
-export const testimonials = [
-  {
-    quote:
-      'JoinAsym put four senior engineers in front of us within 72 hours. All four were still on the programme when it closed.',
-    title: 'Chief Technology Officer',
-    company: 'Regional Investment Group',
-  },
-  {
-    quote:
-      'We needed a strategist with tier-one consulting behind them and real experience in the region. The person they put forward had both.',
-    title: 'Chief Strategy Officer',
-    company: 'GCC Infrastructure Authority',
-  },
-  {
-    quote:
-      'Every person JoinAsym has placed with us has run the full engagement without us having to step in.',
-    title: 'Managing Director',
-    company: 'Family Office, Dubai',
-  },
+/** The three names on About. Titles as they are used with clients. Every
+    portrait is square and goes through .portrait, which greys it — the three
+    backgrounds are black, grey and white and would not otherwise sit together. */
+export const team = [
+  { name: 'Pranav Kapur', title: 'Senior Partner', photo: '/img/team/PranavKapur.jpeg' },
+  { name: 'Sultan Amed', title: 'Senior Partner', photo: '/img/team/SultanAmed.jpeg' },
+  { name: 'Tuan Nguyen', title: 'Founding Engineer', photo: '/img/team/TuanNguyen.png' },
 ];

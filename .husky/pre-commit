@@ -1,0 +1,6 @@
+# Homebrew isn't on PATH inside git hooks by default on macOS.
+export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
+
+npx lint-staged
+npx tsc --noEmit
+gitleaks protect --staged --verbose

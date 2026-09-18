@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">
+  <!-- The same monogram as components/blocks/Mark.tsx. Keep the two in step.
+       Drawn on its own dark tile so it reads on a light browser tab as well. -->
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f0d4a8"/>
+      <stop offset="48%" stop-color="#c98f45"/>
+      <stop offset="100%" stop-color="#8a5a24"/>
+    </linearGradient>
+  </defs>
+  <rect width="40" height="40" rx="8" fill="#0a0a0c"/>
+  <path d="M20 6 34 35h-6.6L20 19.6 12.6 35H6Z" fill="url(#g)"/>
+  <path d="M15 26.2h10l2.3 4.6H12.7Z" fill="#0a0a0c"/>
+  <path d="M20 6 34 35h-6.6L20 19.6Z" fill="#000" opacity="0.22"/>
+</svg>

@@ -1,0 +1,24 @@
+notes/
+.claude/
+
+node_modules/
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+
+.env
+.env.local
+.env*.local
+
+.DS_Store
+*.pem
+npm-debug.log*
+
+# Cloudflare
+.wrangler/
+.dev.vars
+
+# Editor/OS noise
+.vscode/
+.idea/

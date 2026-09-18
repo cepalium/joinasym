@@ -1,0 +1,12 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  // Matches the Worker in the dashboard so this deploys to it, not a new one.
+  "name": "joinasym",
+  "compatibility_date": "2026-09-18",
+  // Static export only — no server, so plain asset hosting, not OpenNext.
+  "assets": {
+    "directory": "./out",
+    // Static export writes out/404.html; without this a miss returns a bare 404.
+    "not_found_handling": "404-page"
+  }
+}

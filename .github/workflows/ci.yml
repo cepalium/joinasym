@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  NODE_VERSION: '22'
+
+jobs:
+  build:
+    name: Build & check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          # The secret scan reads commit history. A shallow clone has none.
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - run: npm ci
+
+      # Backstop for the local pre-commit hook, which developers can skip.
+      #
+      # ⚠️ The binary, not gitleaks/gitleaks-action. The action needs a PR-scoped
+      # token, downloads itself from codeload on every run and pins Node 20 —
+      # three failure modes for a check that reads a git log.
+      #
+      # ⚠️ `git`, never `dir`. `dir` walks the working tree, which after npm ci
+      # means node_modules — minutes of scanning and findings that are not ours.
+      - name: Secret scan
+        run: |
+          curl -sSfL "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz" \
+            | tar -xz gitleaks
+          ./gitleaks git . --redact --no-banner
+        env:
+          GITLEAKS_VERSION: '8.30.1'
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Build (static export)
+        run: npm run build
+
+      # The whole deployable artefact: a folder of static files.
+      - uses: actions/upload-artifact@v5
+        with:
+          name: site
+          path: out/
+          retention-days: 14
+
+# Deployment itself is handled by Cloudflare Workers Builds (build + deploy on
+# push to main), not this workflow. This job is the required status check that
+# gates merges to main.

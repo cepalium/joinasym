@@ -1,0 +1,525 @@
+@import 'tailwindcss';
+
+/* DESIGN TOKENS — every design decision lives here. Nothing hardcodes a colour
+   outside this file. Contrast ratios are measured against --color-ink, not
+   estimated: on near-black the brand bronze fails small-text contrast, which is
+   why there are two golds. */
+
+@theme {
+  /* Ground. Deeper and cooler than a flat #121212 so glass has something to
+     lift off — a blurred panel is only visible against real depth. */
+  --color-ink: #0a0a0c;
+  --color-ink-deep: #050506; /* full-bleed image bands, footer */
+  --color-paper: #f4f1ec; /* primary text — 17.8:1 on ink */
+  --color-warm: #ece5da; /* headings, very slightly warmer */
+  --color-muted: #9a938a; /* secondary text — 6.2:1 on ink */
+  --color-faint: #5d574f; /* tertiary — captions, disabled */
+  --color-line: #1e1e22; /* hairlines on ink */
+
+  /* Two golds, deliberately. `gold` is a fill (buttons, rules, bars) where
+     contrast is carried by the white text on top; `gilt` is the text-safe
+     lightening of it — 7.4:1 on ink, so eyebrows and links pass AA at 12px. */
+  --color-gold: #b87332; /* brand bronze, fills only */
+  --color-gilt: #dfaf74; /* text, eyebrows, numerals */
+  --color-gold-lift: #f0d4a8; /* gradient top-stop and hover highlight */
+
+  --color-offwhite: #f2ede4; /* the one light band */
+  --color-dark-on-light: #131210;
+  --color-warm-on-light: #6b5a49;
+
+  --color-success: #4ba97f;
+
+  /* Fraunces at a low optical size: sturdy stems, moderate contrast, legible
+     from 6rem down to a card heading. Inter carries everything else. */
+  --font-display: var(--font-fraunces), 'Playfair Display', Georgia, serif;
+  --font-body: var(--font-inter), -apple-system, BlinkMacSystemFont, sans-serif;
+
+  --text-d1: clamp(2.875rem, 6.6vw, 5.75rem);
+  --text-d2: clamp(2rem, 3.8vw, 3.25rem);
+  --text-d3: clamp(1.5rem, 2.2vw, 2rem);
+  --text-quote: clamp(1.5rem, 2.6vw, 2.375rem);
+  --text-lead: clamp(1.0625rem, 1.25vw, 1.3125rem);
+  --text-eyebrow: 0.6875rem;
+
+  --radius: 1rem;
+  --radius-sm: 0.625rem;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-hover: 420ms;
+  --duration-reveal: 900ms;
+}
+
+:root {
+  --gutter: clamp(1.25rem, 4.5vw, 4.5rem);
+  --content: 78rem;
+  --section-y: clamp(3.25rem, 5vw, 5.5rem);
+
+  /* GLASS — one recipe, three weights. The blur alone is not the effect: the
+     inset top highlight is what reads as a lit edge, and without the long
+     low-opacity shadow the panel floats without weight. */
+  --glass-tint: rgba(255, 255, 255, 0.045);
+  --glass-tint-strong: rgba(255, 255, 255, 0.07);
+  --glass-edge: rgba(255, 255, 255, 0.09);
+  --glass-edge-lit: rgba(255, 255, 255, 0.16);
+  --glass-blur: 26px;
+  --glass-shadow: 0 32px 64px -32px rgba(0, 0, 0, 0.9);
+}
+
+@layer base {
+  html {
+    background: var(--color-ink);
+    color: var(--color-paper);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    margin: 0;
+    overflow-x: hidden;
+    /* Two fixed washes of bronze light. Fixed, not absolute, so the glow sits
+       still while content scrolls over it — the panels then travel through the
+       light instead of carrying it. */
+    background-image:
+      radial-gradient(60rem 40rem at 78% -8%, rgba(184, 115, 50, 0.16), transparent 62%),
+      radial-gradient(48rem 34rem at 6% 42%, rgba(184, 115, 50, 0.07), transparent 60%);
+    background-attachment: fixed;
+  }
+
+  /* Film grain. Dark gradients band badly on 8-bit panels; a 3.5% noise layer
+     is the cheapest fix and reads as paper stock rather than as texture. */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.032;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    margin: 0;
+    font-weight: 400;
+    text-wrap: balance;
+  }
+
+  p {
+    margin: 0;
+    text-wrap: pretty;
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+  }
+
+  ::selection {
+    background: var(--color-gold);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-gilt);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}
+
+@layer components {
+  .container {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: var(--content);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+
+  .section {
+    position: relative;
+    padding-block: var(--section-y);
+  }
+
+  /* Display type. Bodoni's optical size axis is set high so the hairlines thin
+     out the way the metal did at poster sizes. */
+  /* Fraunces' opsz axis sets stroke contrast, and the two settings below are
+     used deliberately, not interchangeably.
+
+     The default is the sturdy one: card headings, step titles, quotes and the
+     wordmark all sit at text sizes where fine hairlines drop out on near-black. */
+  .display {
+    font-family: var(--font-display);
+    font-variation-settings:
+      'opsz' 20,
+      'SOFT' 0,
+      'WONK' 0;
+    font-weight: 600;
+    line-height: 0.98;
+    letter-spacing: -0.02em;
+  }
+
+  /* Reserved for the page title and the section titles — the two levels big
+     enough to carry the contrast, which is what separates them from the card
+     headings underneath. Applied by size in the Display primitive. */
+  .display-fine {
+    font-variation-settings:
+      'opsz' 144,
+      'SOFT' 0,
+      'WONK' 0;
+    letter-spacing: -0.028em;
+  }
+
+  /* The hero alone sets its leading tighter — four lines of it need it. */
+  .display-hero {
+    line-height: 0.94;
+  }
+
+  /* THE GLASS PANEL. */
+  .glass {
+    position: relative;
+    border: 1px solid var(--glass-edge);
+    border-radius: var(--radius);
+    background: linear-gradient(
+      160deg,
+      var(--glass-tint-strong) 0%,
+      var(--glass-tint) 42%,
+      rgba(255, 255, 255, 0.02) 100%
+    );
+    backdrop-filter: blur(var(--glass-blur)) saturate(165%);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(165%);
+    box-shadow:
+      inset 0 1px 0 var(--glass-edge-lit),
+      var(--glass-shadow);
+  }
+
+  /* The specular streak across the top-left corner. Masked to a 55% band so it
+     reads as a light source, not as a second border. */
+  .glass::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, var(--glass-edge-lit), transparent 55%);
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    pointer-events: none;
+  }
+
+  /* Glass sitting ON a photograph. The tint alone is transparent, so whatever
+     is behind it — a lit floor, a bright sky — takes the caption with it; the
+     near-opaque base is what keeps the text at ratio over any image. */
+  .glass-on-image {
+    background:
+      linear-gradient(160deg, var(--glass-tint-strong) 0%, var(--glass-tint) 42%, transparent 100%),
+      rgba(10, 10, 12, 0.72);
+  }
+
+  .glass-interactive {
+    transition:
+      transform var(--duration-hover) var(--ease-out-expo),
+      border-color var(--duration-hover) var(--ease-out-expo),
+      box-shadow var(--duration-hover) var(--ease-out-expo);
+  }
+
+  .glass-interactive:hover {
+    transform: translateY(-4px);
+    border-color: rgba(223, 175, 116, 0.34);
+    box-shadow:
+      inset 0 1px 0 var(--glass-edge-lit),
+      0 0 0 1px rgba(184, 115, 50, 0.12),
+      0 40px 80px -36px rgba(0, 0, 0, 0.95),
+      0 0 64px -28px rgba(184, 115, 50, 0.55);
+  }
+
+  /* Ordinal numerals — the small 01–07 indices and the step figures. */
+  .numeral {
+    font-family: var(--font-display);
+    font-variation-settings:
+      'opsz' 14,
+      'SOFT' 0,
+      'WONK' 0;
+    font-weight: 700;
+    line-height: 0.8;
+    letter-spacing: -0.03em;
+    background: linear-gradient(180deg, var(--color-gold-lift), var(--color-gold) 78%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Section marker. The rule is what separates it from the heading below. */
+  /* Stat figures, set like a section title rather than like an index: same
+     fine optical size, so the four tiles read as headline type. */
+  .numeral-fine {
+    font-variation-settings:
+      'opsz' 144,
+      'SOFT' 0,
+      'WONK' 0;
+    font-weight: 600;
+    letter-spacing: -0.028em;
+  }
+
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    font-size: var(--text-eyebrow);
+    font-weight: 500;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--color-gilt);
+  }
+
+  .eyebrow::before {
+    content: '';
+    width: 2.25rem;
+    height: 1px;
+    flex: none;
+    background: linear-gradient(90deg, transparent, currentColor);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    border-radius: 999px;
+    padding: 0.9375rem 1.75rem;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    letter-spacing: 0.005em;
+    transition:
+      transform var(--duration-hover) var(--ease-out-expo),
+      box-shadow var(--duration-hover) var(--ease-out-expo),
+      border-color var(--duration-hover) var(--ease-out-expo);
+  }
+
+  .btn-primary {
+    color: #fff;
+    background: linear-gradient(140deg, #d99551, var(--color-gold) 52%, #94551f);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.28),
+      0 18px 36px -18px rgba(184, 115, 50, 0.9);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.34),
+      0 26px 50px -20px rgba(184, 115, 50, 1);
+  }
+
+  .btn-glass {
+    color: var(--color-paper);
+    border: 1px solid var(--glass-edge);
+    background: var(--glass-tint);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+  }
+
+  .btn-glass:hover {
+    transform: translateY(-2px);
+    border-color: rgba(223, 175, 116, 0.42);
+  }
+
+  /* Hairline divider that fades at both ends — a full-width 1px line looks
+     mechanical against this much soft light. */
+  .rule {
+    height: 1px;
+    border: 0;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--color-line) 12%,
+      var(--color-line) 88%,
+      transparent
+    );
+  }
+
+  /* THE LIGHT BAND. Reassigns the same tokens rather than adding new ones, so
+     every utility inside flips with no per-component work. Glass is opaque
+     here: a blurred panel over paper reads as dirt. */
+  .on-light {
+    --color-ink: var(--color-offwhite);
+    --color-paper: var(--color-dark-on-light);
+    --color-warm: var(--color-dark-on-light);
+    --color-muted: var(--color-warm-on-light);
+    --color-faint: #9c8e7d;
+    --color-line: #ddd2c2;
+    --color-gilt: #97652c; /* 4.9:1 on the light band */
+    --glass-tint: rgba(255, 255, 255, 0.72);
+    --glass-tint-strong: rgba(255, 255, 255, 0.9);
+    --glass-edge: rgba(19, 18, 16, 0.08);
+    --glass-edge-lit: rgba(255, 255, 255, 0.9);
+    --glass-shadow: 0 24px 48px -30px rgba(19, 18, 16, 0.4);
+
+    background: var(--color-ink);
+    color: var(--color-paper);
+  }
+
+  /* SCROLL REVEAL. Class `js` is set by the inline script in <head> before
+     first paint; without JavaScript every element is simply visible.
+
+     ⚠️ The observer marks elements with the `data-in` ATTRIBUTE, never with a
+     class. It runs on DOMContentLoaded, which fires before React hydrates, so
+     anything it writes to `className` is a className React did not render —
+     a hydration mismatch on every revealed element. React only diffs the props
+     it rendered itself, and it never renders `data-in`, so an attribute is
+     invisible to hydration where a class is not. */
+  .js [data-reveal] {
+    opacity: 0;
+    transform: translateY(1.75rem);
+    transition:
+      opacity var(--duration-reveal) var(--ease-out-expo),
+      transform var(--duration-reveal) var(--ease-out-expo);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+
+  .js [data-reveal][data-in] {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* QUOTE CYCLE. Stacked in a single grid cell rather than absolutely
+     positioned, so the tallest quote sets the height and the block never
+     collapses mid-fade. 24s round, 8s each, 1s crossfade. */
+  .cycle {
+    display: grid;
+  }
+
+  .cycle blockquote {
+    line-height: 1.24;
+    letter-spacing: -0.01em;
+  }
+
+  .cycle > * {
+    grid-area: 1 / 1;
+    opacity: 0;
+    animation: cycle-fade 24s ease-in-out infinite;
+  }
+
+  .cycle > *:nth-child(2) {
+    animation-delay: 8s;
+  }
+
+  .cycle > *:nth-child(3) {
+    animation-delay: 16s;
+  }
+
+  @keyframes cycle-fade {
+    0%,
+    1% {
+      opacity: 0;
+    }
+    4%,
+    30% {
+      opacity: 1;
+    }
+    34%,
+    100% {
+      opacity: 0;
+    }
+  }
+
+  /* The progress bar under it runs on the same clock. */
+  .cycle-dot {
+    width: 1.75rem;
+    height: 2px;
+    border-radius: 999px;
+    background: var(--color-line);
+    overflow: hidden;
+  }
+
+  .cycle-dot::after {
+    content: '';
+    display: block;
+    height: 100%;
+    width: 100%;
+    transform: scaleX(0);
+    transform-origin: left;
+    background: var(--color-gold);
+    animation: cycle-fill 24s linear infinite;
+  }
+
+  .cycle-dot:nth-child(2)::after {
+    animation-delay: 8s;
+  }
+
+  .cycle-dot:nth-child(3)::after {
+    animation-delay: 16s;
+  }
+
+  @keyframes cycle-fill {
+    0% {
+      transform: scaleX(0);
+    }
+    33% {
+      transform: scaleX(1);
+    }
+    34%,
+    100% {
+      transform: scaleX(0);
+    }
+  }
+
+  /* The client marquee. Duplicated track, translated by exactly half its width,
+     so the seam is invisible and the loop needs no JavaScript. */
+  .marquee {
+    display: flex;
+    width: max-content;
+    animation: marquee 46s linear infinite;
+  }
+
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee {
+      animation: none;
+    }
+    /* No cycling without motion: the first quote simply stays up. */
+    .cycle > * {
+      animation: none;
+    }
+    .cycle > *:first-child {
+      opacity: 1;
+    }
+    .cycle-dot::after {
+      animation: none;
+    }
+    .cycle-dot:first-child::after {
+      transform: scaleX(1);
+    }
+    .js [data-reveal] {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+    .glass-interactive:hover,
+    .btn:hover {
+      transform: none;
+    }
+  }
+}

@@ -3,6 +3,11 @@
   // Matches the Worker in the dashboard so this deploys to it, not a new one.
   "name": "joinasym",
   "compatibility_date": "2026-09-18",
+  // Workers Builds runs only the deploy command; without this there is no
+  // `out/` to upload. Keeps the build in the repo rather than the dashboard.
+  "build": {
+    "command": "npm run build"
+  },
   // Static export only — no server, so plain asset hosting, not OpenNext.
   "assets": {
     "directory": "./out",

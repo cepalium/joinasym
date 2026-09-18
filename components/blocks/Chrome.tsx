@@ -36,7 +36,10 @@ export function Footer() {
   return (
     <footer className="border-t border-white/6 bg-ink-deep">
       <Container className="flex flex-wrap items-start justify-between gap-10 py-12">
-        <Wordmark id="ftr" />
+        <div>
+          <Wordmark id="ftr" />
+          <p className="mt-3 text-sm text-muted">{site.title}</p>
+        </div>
 
         <div className="flex flex-wrap gap-x-16 gap-y-8">
           <div>

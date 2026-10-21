@@ -1,8 +1,6 @@
-import { directory } from '@/content/experts';
-import { disciplines, homeSteps, pillars, team } from '@/content/pages';
+import { disciplines, homeSteps, pillars } from '@/content/pages';
 import { mailto } from '@/lib/site';
-import { Button, Container, Display, Lead, Section, reveal } from '@/components/primitives';
-import { ExpertCard } from '@/components/blocks/ExpertCard';
+import { Button, Container, Display, Section, reveal } from '@/components/primitives';
 
 /** One framed plate in the hero collage: glass mat, image inset inside it. */
 function Plate({
@@ -92,7 +90,7 @@ function Hero() {
    four-column grid exactly with no trailing gap. */
 function Disciplines() {
   return (
-    <Section>
+    <Section id="expertise">
       <Container>
         <Display {...reveal()}>Expertise across disciplines</Display>
 
@@ -111,22 +109,6 @@ function Disciplines() {
                 {discipline.description}
               </p>
             </article>
-          ))}
-        </div>
-      </Container>
-    </Section>
-  );
-}
-
-function Network() {
-  return (
-    <Section id="talents">
-      <Container>
-        <Display {...reveal()}>Meet our experts</Display>
-
-        <div className="mt-9 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {directory.slice(0, 8).map((expert, i) => (
-            <ExpertCard key={expert.name} expert={expert} delay={(i % 4) * 60} />
           ))}
         </div>
       </Container>
@@ -173,7 +155,7 @@ function Deliver() {
 
 function Process() {
   return (
-    <Section>
+    <Section id="how-it-works">
       <Container>
         <Display {...reveal()}>How it works</Display>
 
@@ -196,40 +178,6 @@ function Process() {
             </li>
           ))}
         </ol>
-      </Container>
-    </Section>
-  );
-}
-
-function About() {
-  return (
-    <Section id="about">
-      <Container>
-        <Display {...reveal()}>About us</Display>
-        <Lead className="mt-5" {...reveal({ delay: 80 })}>
-          We connect the world&rsquo;s top talent with the world&rsquo;s top organizations.
-        </Lead>
-
-        <ul className="mt-12 grid gap-5 sm:grid-cols-3">
-          {team.map((member, i) => (
-            <li
-              key={member.name}
-              className="glass glass-interactive flex flex-col items-center p-7 text-center"
-              {...reveal({ delay: 140 + i * 90 })}
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={member.photo}
-                alt=""
-                width={224}
-                height={224}
-                className="portrait size-28 rounded-full object-cover"
-              />
-              <h3 className="display mt-5 text-[1.25rem] text-warm">{member.name}</h3>
-              <p className="mt-1 text-sm text-gilt">{member.title}</p>
-            </li>
-          ))}
-        </ul>
       </Container>
     </Section>
   );
@@ -273,10 +221,8 @@ export default function Home() {
     <>
       <Hero />
       <Disciplines />
-      <Network />
       <Deliver />
       <Process />
-      <About />
       <Closing />
     </>
   );

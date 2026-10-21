@@ -69,12 +69,3 @@ export const homeSteps = [
       'You interview and you choose. We handle contracting and onboarding for the length of the engagement.',
   },
 ];
-
-/** The three names on About. Titles as they are used with clients. Every
-    portrait is square and goes through .portrait, which greys it — the three
-    backgrounds are black, grey and white and would not otherwise sit together. */
-export const team = [
-  { name: 'Pranav Kapur', title: 'Senior Partner', photo: '/img/team/PranavKapur.jpeg' },
-  { name: 'Sultan Amed', title: 'Senior Partner', photo: '/img/team/SultanAmed.jpeg' },
-  { name: 'Tuan Nguyen', title: 'Founding Engineer', photo: '/img/team/TuanNguyen.png' },
-];

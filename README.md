@@ -42,11 +42,10 @@ app/page.tsx              every section of the page, one function each
 app/layout.tsx            fonts, metadata, the pre-paint reveal script
 app/globals.css           all design tokens: colour, type, glass, motion
 app/icon.svg              favicon (keep in step with components/blocks/Mark.tsx)
-components/primitives/    Container, Section, Display, Button, StatusPill
-components/blocks/        Chrome (header/footer), ExpertCard, Mark
+components/primitives/    Container, Section, Display, Lead, Button
+components/blocks/        Chrome (header/footer), Mark
 components/motion/        Reveal — scroll reveal, must stay in an effect
 content/pages.ts          all page copy
-content/experts.ts        the expert directory
 lib/site.ts               name, email, office, URL
 public/img/               photography + CREDITS.txt
 ```

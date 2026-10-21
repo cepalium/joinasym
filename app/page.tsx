@@ -62,7 +62,7 @@ function Hero() {
           <div className="relative mx-auto aspect-[4/5] w-full max-w-[24rem]">
             <Plate
               src="/img/hero-abudhabi.jpg"
-              alt="Etihad Towers, Abu Dhabi"
+              alt="The Abu Dhabi skyline at night"
               width={1200}
               height={1500}
               className="top-0 right-0 h-[60%] w-[70%]"
@@ -75,8 +75,8 @@ function Hero() {
               className="bottom-[7%] left-0 h-[50%] w-[53%]"
             />
             <Plate
-              src="/img/hero-riyadh.jpg"
-              alt="Kingdom Centre, Riyadh, at night"
+              src="/img/hero-etihad.jpg"
+              alt="Etihad Towers, Abu Dhabi, at sunset"
               width={1000}
               height={1000}
               className="right-[4%] bottom-0 h-[30%] w-[37%]"

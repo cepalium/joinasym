@@ -1,6 +1,6 @@
-# joinasym.com
+# asym.ae
 
-Single-page marketing site for JoinAsym. Next.js static export, no backend.
+Single-page marketing site for Asym. Next.js static export, no backend.
 
 ## Commands
 
@@ -19,8 +19,8 @@ Push to `main` (or merge a PR into it). Two things happen automatically:
 1. **GitHub Actions** (`.github/workflows/ci.yml`) runs a secret scan, lint,
    typecheck and build. This is the required check — a broken build can't merge.
 2. **Cloudflare Workers Builds** watches the same `main` branch, runs
-   `npm run build` and deploys `out/` to the `joinasym` Worker. Every PR also
-   gets its own preview URL.
+   `npm run build` and deploys `out/` to the `joinasym` Worker, which serves
+   `asym.ae`. Every PR also gets its own preview URL.
 
 Nothing to upload by hand. `wrangler.jsonc` is what keeps this a plain static
 asset deploy — without it Cloudflare detects Next.js and builds through
@@ -62,8 +62,8 @@ public/img/               photography + CREDITS.txt
 - **Reveal runs in an effect, not in the head script.** The head script only
   adds `js` to `<html>`. Anything that marks `[data-reveal]` elements before
   React hydrates causes a hydration mismatch on the whole tree.
-- **Photography is Unsplash**, free for commercial use. Replace with licensed
-  brand photography before launch. Credits in `public/img/CREDITS.txt`.
+- **Photography is Unsplash and Pexels**, free for commercial use. Replace with
+  licensed brand photography before launch. Credits in `public/img/CREDITS.txt`.
 - **The client logos and the three testimonials are placeholder content**
   inherited from the original build. They name real organisations as clients and
   quote officers who do not exist. Replace or remove them before launch.

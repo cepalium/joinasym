@@ -120,19 +120,3 @@ export function Button({
     </a>
   );
 }
-
-export function StatusPill({ available }: { available: boolean }) {
-  return (
-    <span
-      className={`inline-flex shrink-0 items-center gap-1.5 rounded-full border px-2.5 py-1 text-[0.6875rem] tracking-wide ${
-        available ? 'border-success/35 text-success' : 'border-line text-faint'
-      }`}
-    >
-      <span
-        aria-hidden="true"
-        className={`size-1.5 rounded-full ${available ? 'bg-success' : 'bg-faint'}`}
-      />
-      {available ? 'Available' : 'Engaged'}
-    </span>
-  );
-}

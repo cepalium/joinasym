@@ -27,8 +27,6 @@
   --color-dark-on-light: #131210;
   --color-warm-on-light: #6b5a49;
 
-  --color-success: #4ba97f;
-
   /* Fraunces at a low optical size: sturdy stems, moderate contrast, legible
      from 6rem down to a card heading. Inter carries everything else. */
   --font-display: var(--font-fraunces), 'Playfair Display', Georgia, serif;
@@ -378,18 +376,6 @@
 
     background: var(--color-ink);
     color: var(--color-paper);
-  }
-
-  /* TEAM PORTRAIT. Greyscale is not a mood: the three source photographs have
-     black, grey and white backgrounds, and colour makes that impossible to
-     ignore. Colour returns on hover. */
-  .portrait {
-    filter: grayscale(1) contrast(1.04);
-    transition: filter 0.5s var(--ease-out-expo);
-  }
-
-  .glass-interactive:hover .portrait {
-    filter: grayscale(0) contrast(1);
   }
 
   /* SCROLL REVEAL. Class `js` is set by the inline script in <head> before

@@ -27,11 +27,11 @@ export function Header() {
             {/* Hidden below sm: two links and the CTA do not fit a phone header,
                 and both sections are on the way down the page anyway. */}
             <nav className="hidden items-center gap-7 text-sm text-muted sm:flex">
-              <a href="#talents" className="transition-colors hover:text-warm">
-                Our Talents
+              <a href="#expertise" className="transition-colors hover:text-warm">
+                Expertise
               </a>
-              <a href="#about" className="transition-colors hover:text-warm">
-                About Us
+              <a href="#how-it-works" className="transition-colors hover:text-warm">
+                How it works
               </a>
             </nav>
 
